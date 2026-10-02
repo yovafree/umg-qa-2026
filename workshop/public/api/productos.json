@@ -1,0 +1,7 @@
+[
+  { "id": 1, "nombre": "Cuaderno universitario", "precio": 25.0 },
+  { "id": 2, "nombre": "Lapicero azul", "precio": 3.5 },
+  { "id": 3, "nombre": "Calculadora científica", "precio": 185.0 },
+  { "id": 4, "nombre": "Mochila", "precio": 250.0 },
+  { "id": 5, "nombre": "Resaltador", "precio": 6.75 }
+]

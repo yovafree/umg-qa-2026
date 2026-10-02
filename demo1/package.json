@@ -1,0 +1,12 @@
+{
+  "name": "cypress-checkout-demo",
+  "version": "1.0.0",
+  "description": "Demo 1: ejemplo básico de Cypress sobre un checkout",
+  "scripts": {
+    "test": "cypress open",
+    "test:run": "cypress run"
+  },
+  "devDependencies": {
+    "cypress": "^13.0.0"
+  }
+}

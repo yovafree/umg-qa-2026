@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Checkout Demo</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; padding: 40px; background-color: #f4f7f6; }
+        .checkout-container { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); max-width: 400px; margin: 0 auto; }
+        h1 { font-size: 24px; color: #333; margin-top: 0; }
+        .checkout-form { display: flex; flex-direction: column; gap: 15px; }
+        label { font-weight: bold; font-size: 14px; color: #555; margin-bottom: -10px; }
+        input, button { padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 16px; }
+        input:disabled { background-color: #e9ecef; color: #6c757d; }
+        button { background-color: #00bf88; color: white; border: none; cursor: pointer; font-weight: bold; transition: background-color 0.2s; }
+        button:hover { background-color: #009f71; }
+        #mensaje { margin-top: 20px; font-weight: bold; text-align: center; padding: 10px; border-radius: 4px; display: none; }
+        .error { color: #721c24; background-color: #f8d7da; border: 1px solid #f5c6cb; display: block !important; }
+        .success { color: #155724; background-color: #d4edda; border: 1px solid #c3e6cb; display: block !important; }
+    </style>
+</head>
+<body>
+    <div class="checkout-container">
+        <h1>Finalizar Compra</h1>
+        <div class="checkout-form">
+            <label for="producto">Producto</label>
+            <input type="text" id="producto" value="Curso de Automatización QA" disabled>
+            
+            <label for="cantidad">Cantidad</label>
+            <input type="number" id="cantidad" value="1" min="1">
+            
+            <label for="tarjeta">Número de Tarjeta</label>
+            <input type="text" id="tarjeta" placeholder="1234 5678 9101 1121">
+            
+            <button id="btn-pagar">Procesar Pago</button>
+        </div>
+        <div id="mensaje"></div>
+    </div>
+
+    <script>
+        document.getElementById('btn-pagar').addEventListener('click', () => {
+            const cantidad = document.getElementById('cantidad').value;
+            const tarjeta = document.getElementById('tarjeta').value;
+            const mensaje = document.getElementById('mensaje');
+
+            if (!tarjeta) {
+                mensaje.textContent = 'Error: Ingrese un número de tarjeta válido';
+                mensaje.className = 'error';
+                return;
+            }
+
+            mensaje.textContent = 'Procesando pago...';
+            mensaje.className = '';
+            mensaje.style.display = 'block';
+
+            // Simular llamada a API de pasarela de pagos
+            fetch('/api/pagos', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ cantidad, tarjeta })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if(data.success) {
+                    mensaje.textContent = '¡Pago exitoso! Su orden ha sido confirmada.';
+                    mensaje.className = 'success';
+                } else {
+                    mensaje.textContent = 'Error en el pago: ' + data.error;
+                    mensaje.className = 'error';
+                }
+            })
+            .catch(err => {
+                mensaje.textContent = 'Error 500: Fallo de conexión con el servidor';
+                mensaje.className = 'error';
+            });
+        });
+    </script>
+</body>
+</html>
